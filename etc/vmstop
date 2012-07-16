@@ -1,0 +1,19 @@
+#!/bin/sh
+
+STATUS=`sh vmstatus`
+if [ "$STATUS" = "running" ]; then
+	sudo kill -9 `sudo cat vm.pid` > /dev/null 2>&1
+	sleep 1
+	if [ -f vmstop_script ]; then
+		sudo sh vmstop_script
+	fi
+	STATUS=`sh vmstatus`
+	if [ "$STATUS" = "running" ]; then
+		echo "fail"
+	else
+		echo "succ"
+	fi
+else
+	echo "noop"
+	exit 0
+fi

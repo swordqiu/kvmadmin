@@ -1,0 +1,4 @@
+[00:01:34] _url: /kvmadmin/request_handler.php?_action=EDIT_VMHOST&_callback=_config_content_panel_callback&_callback_id=_host_list&_id=3&_vc_name=qserver1&_vc_address=192.168.0.10&_siu_memory=22016&_vc_bridge_name=br0&_vc_vm_dir=%2Fhome%2Fvm%2Fvms%2F&_siu_disk_size=1000&_vc_template_dir=%2Fhome%2Fvm%2Ftemplates%2F&_vc_iso_dir=%2Fhome%2Fvm%2Fiso%2F _action: EDIT_VMHOST
+[00:02:11] _url: /kvmadmin/request_handler.php? _action: EDIT_VMHOST
+[00:02:17] _url: /kvmadmin/request_handler.php? _action: EDIT_VMHOST
+[00:02:17] insert into vm_log_tbl(host_id, vc_name, vc_user, dt_when, notes) values(3, '', 'admin', NOW(), '更新物理主机属性qserver1')

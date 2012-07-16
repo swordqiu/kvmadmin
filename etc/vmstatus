@@ -1,0 +1,13 @@
+#!/bin/sh
+
+if [ -f vm.pid ]; then
+	ps -p `sudo cat vm.pid` > /dev/null 2>&1
+	if [ "$?" = "0" ]; then
+		echo "running"
+	else
+		echo "stopped"
+		sudo rm -fr vm.pid
+	fi
+else
+	echo "stopped"
+fi

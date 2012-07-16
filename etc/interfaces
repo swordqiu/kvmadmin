@@ -1,0 +1,27 @@
+# This file describes the network interfaces available on your system
+# and how to activate them. For more information, see interfaces(5).
+
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+allow-hotplug eth0
+iface eth0 inet manual
+#iface eth0 inet static
+#	address 122.200.66.52
+#	netmask 255.255.255.0
+#	gateway 122.200.66.1
+#	dns-nameservers 202.106.0.20
+
+auto br0
+iface br0 inet static
+	address 58.68.150.170
+	netmask 255.255.255.224
+	gateway 58.68.150.161
+	dns-nameservers 202.106.0.20
+	bridge_ports eth0
+	bridge_fd 9
+	bridge_hello 2
+	bridge_maxage 12
+	bridge_stp off
+	bridge_maxwait 0

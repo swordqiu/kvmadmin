@@ -1,0 +1,19 @@
+#!/bin/bash
+
+PROXY=/var/www/noVNC/utils/websockify
+PIDFILE=/var/www/kvmadmin/local/tmp/vnc.pid
+OPTION=
+OPTION="--run-once"
+
+IP=$1
+PORT=$2
+
+if [ -f $PIDFILE ]; then
+	PID=`cat $PIDFILE`
+	PID=$(($PID+1))
+	sudo kill -9 $PID > /dev/null 2>&1
+	#sleep 1
+fi
+
+sudo $PROXY $OPTION 55900 $1:$2 > /dev/null 2>&1 &
+echo $! > $PIDFILE

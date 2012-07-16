@@ -1,0 +1,8 @@
+#!/bin/sh
+
+STATUS=`sh vmstatus`
+if [ "$STATUS" = "stopped" ]; then
+	if [ -f vmstart_script ]; then
+		sudo sh vmstart_script
+	fi
+fi

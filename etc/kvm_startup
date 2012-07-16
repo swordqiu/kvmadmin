@@ -1,0 +1,40 @@
+#!/bin/bash
+
+KVMNET_UID=www-data
+KVMNET_GID=www-data
+
+VNET=vnet
+
+# number of TUN/TAP devices to setup
+NUM_OF_DEVICES=6
+
+case $1 in
+        start)
+                /sbin/modprobe kvm
+                /sbin/modprobe kvm_intel
+                /sbin/modprobe tun
+		/bin/chown ${KVMNET_UID}:${KVMNET_GID} /dev/kvm
+                #echo "Setting up bridge device br0"
+                #brctl addbr br0
+                #ifconfig br0 192.168.100.254 netmask 255.255.255.0 up
+                for ((i=0; i < NUM_OF_DEVICES ; i++)); do
+                        echo -n "Setting up "
+                        /usr/sbin/tunctl -b -u ${KVMNET_UID} -g ${KVMNET_GID} -t ${VNET}$i
+                        /usr/sbin/brctl addif br0 ${VNET}$i
+                        /sbin/ifconfig ${VNET}$i up 0.0.0.0 promisc
+                done
+        ;;
+        stop)
+                for ((i=0; i < NUM_OF_DEVICES ; i++)); do
+                        /sbin/ifconfig ${VNET}$i down
+                        /usr/sbin/brctl delif br0 ${VNET}$i
+                        /usr/sbin/tunctl -b -d ${VNET}$i
+                done
+                /sbin/rmmod kvm_intel
+                /sbin/rmmod kvm
+		/sbin/rmmod tun
+        ;;
+        *)
+                echo "Usage: $(basename $0) (start|stop)"
+        ;;
+esac

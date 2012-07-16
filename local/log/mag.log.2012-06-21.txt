@@ -1,0 +1,4 @@
+[21:41:50] _url: /kvmadmin/request_handler.php?_action=LOGIN&_callback=init_login_panel_callback&_mag_user=admin&_mag_password=June062012 _action: LOGIN
+[21:42:05] Qeury String select count(*) from (SELECT vm_guest_tbl.host_id, vm_host_tbl.vc_name as host_name, vm_guest_tbl.vc_name as guest_name, vm_guest_tbl.siu_memory, vm_guest_tbl.tiu_vnet_idx, vm_guest_tbl.siu_vnc_port, vm_guest_tbl.tiu_state, vm_guest_tbl.vc_user, vm_guest_tbl.dt_created, vm_guest_tbl.vc_os_type, vm_guest_tbl.vc_mac FROM vm_host_tbl, vm_guest_tbl WHERE vm_host_tbl.id=vm_guest_tbl.host_id) sub_tbl LIMIT 1 Error Unknown column 'vm_guest_tbl.tiu_vnet_idx' in 'field list'
+[21:42:09] _url: /kvmadmin/rpc_handler.php? _action: GET_ISO_LIST
+[23:37:21] _url: /kvmadmin/request_handler.php?_action=LOGIN&_callback=init_login_panel_callback&_mag_user=admin&_mag_password=June062012 _action: LOGIN
