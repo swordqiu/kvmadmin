@@ -15,10 +15,10 @@
  *  GNU Lesser General Public License for more details.
  *
  *  You should have received a copy of the GNU Lesser General Public License
- *  along with JiaLib.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with kvmadmin.  If not, see <http://www.gnu.org/licenses/>.
  *  @license GNU Lesser General Public License
  *
- *  CopyRight 2009-2012 QIU Jian (sordqiu@gmail.com)
+ *  CopyRight 2010-2012 QIU Jian (sordqiu@gmail.com)
  *
  ****************************************************************************/
 ?>
@@ -96,6 +96,34 @@ class VMHostNet {
 
 	public function getBridge() {
 		return $this->__vc_bridge;
+	}
+
+	public function startDHCP(&$db) {
+		$host = new VMHost($this->__host_id);
+		$host->initByDB($db);
+		$net = new VMNetwork($this->__net_id);
+		$net->initByDB($db);
+		$pidfile = $host->getVMDir()."/dnsmasq.".$net->getID().".pid";
+		$hostfile = $host->getVMDir()."/dnsmasq.".$net->getID().".hosts";
+		$cmd = "if [ -f {$pidfile} ]; then sudo kill -9 `cat {$pidfile}`; fi";
+		$ret = $host->ssh2_exec($cmd, $errmsg);
+		if ($ret === TRUE) {
+			$cmd = "sudo /usr/sbin/dnsmasq";
+			$cmd .= " -x {$pidfile}";
+			$cmd .= " -h"; # Don't read the hostnames in /etc/hosts
+			$cmd .= " -u dnsmasq";
+			$cmd .= " -i ".$this->getBridge();
+			$cmd .= " -z";
+			$cmd .= " -b"; # bogus-priv
+			$cmd .= " -R"; # Don't read /etc/resolv.conf
+			$cmd .= " -D"; # domain-needed
+			$cmd .= " --server=".$net->getDNSServer();
+			$cmd .= " --dhcp-hostsfile=".$hostfile;
+			$cmd .= " --dhcp-range=".$net->getNetworkAddress().",static";
+			$cmd .= " --dhcp-option=3,".$net->getGateway();
+		}else {
+			return "Stop dnsmasq failed";
+		}
 	}
 }
 
@@ -297,6 +325,10 @@ class VMHost {
 	/*public function getTemplateList() {
 		return $this->getDirList($this->__vc_template_dir);
 	}*/
+
+	public function getVMDir() {
+		return $this->__vc_vm_dir;
+	}
 
 	public function getGuestDir(&$guest) {
 		return $this->__vc_vm_dir."/vm".$guest->getID();

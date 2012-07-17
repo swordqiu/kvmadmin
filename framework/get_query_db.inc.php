@@ -15,10 +15,10 @@
  *  GNU Lesser General Public License for more details.
  *
  *  You should have received a copy of the GNU Lesser General Public License
- *  along with JiaLib.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with kvmadmin.  If not, see <http://www.gnu.org/licenses/>.
  *  @license GNU Lesser General Public License
  *
- *  CopyRight 2009-2012 QIU Jian (sordqiu@gmail.com)
+ *  CopyRight 2010-2012 QIU Jian (sordqiu@gmail.com)
  *
  ****************************************************************************/
 ?>
